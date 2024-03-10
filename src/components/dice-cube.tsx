@@ -1,45 +1,37 @@
-"use client"
+"use client";
+import { Suspense } from "react";
 
-import supabase from '@/lib/supabase'
-import { Canvas, extend } from '@react-three/fiber'
-import { useEffect, useState } from 'react'
+import { Canvas, extend } from "@react-three/fiber";
+import { Mesh, BoxGeometry, MeshStandardMaterial } from "three";
 
-import { Mesh, BoxGeometry, MeshStandardMaterial } from 'three'
+extend({ Mesh, BoxGeometry, MeshStandardMaterial });
 
-extend({ Mesh, BoxGeometry, MeshStandardMaterial })
+import ModelViewer from "./model-viewer";
+import CanvasLoading from "./canvas-loader";
+import { Environment, OrbitControls, PerspectiveCamera, useGLTF } from "@react-three/drei";
+import CubeModel from "./dice-model";
 
-import { FileObject, Bucket } from "@supabase/storage-js/src/lib/types"
-
-const DiceCube = () => {
-    const [data, setData] = useState<Bucket>()
-    const [error, setError] = useState<Error>()
-
-    useEffect(() => {
-        getFiles().then((res) => {
-            if (res) setData(res!); else setError({ message: "unknown error", name: "Unknown error" })
-        }).catch((err) => setError(err))
-    }, [])
-
-    console.log({
-        data: data,
-        error: error
-    });
-
+const DiceCube = ({ modelURL, ...restProps }: { modelURL: string, restProps?: any }) => {
+    const credit = `This work is based on "Dice" (https://sketchfab.com/3d-models/dice-d796ac8f56db4dc78ed18be534939225) by TheBoss009SS (https://sketchfab.com/TheBoss009SS) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)`;
     return (
         <Canvas>
-            <pointLight position={[10, 10, 10]} />
-            <mesh>
-                <sphereGeometry />
-                <meshStandardMaterial color="hotpink" />
-            </mesh>
+            <Suspense fallback={<CanvasLoading />}>
+                {/* <ambientLight intensity={10} />
+                <spotLight position={[10, 10, 10]} intensity={10} />
+                <ModelViewer
+                    modelPath={modelURL}
+                    scale={0.03}
+                    position={[0, 0, 0]}
+                    withModelControl
+                />
+                <axesHelper args={[5]} />
+                <gridHelper /> */}
+                <CubeModel scale={1.3} />
+                <OrbitControls />
+                <Environment preset="sunset" />
+            </Suspense>
         </Canvas>
-    )
-}
+    );
+};
 
-export default DiceCube
-
-async function getFiles() {
-
-    const { data, error } = await supabase.storage.getBucket("tatanation-nextjs-template")
-    if (data) return data; else throw error;
-}
+export default DiceCube;
