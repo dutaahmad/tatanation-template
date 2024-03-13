@@ -1,15 +1,5 @@
 import DiceCube from "@/components/dice-cube";
 import { Separator } from "@/components/ui/separator";
-import supabase from "@/lib/supabase";
-import Link from "next/link";
-
-// async function getDice() {
-//   "use server";
-//   const modelUrl = supabase.storage
-//     .from(process.env.NEXT_PUBLIC_SUPABASE_BUCKET!)
-//     .getPublicUrl("dice-001.fbx");
-//   return modelUrl;
-// }
 
 export default async function Home() {
   const diceURL = "https://teyxwtyylywkvgbzwhoe.supabase.co/storage/v1/object/public/tatanation-nextjs-template/scene.gltf?t=2024-03-09T16%3A25%3A27.258Z"
@@ -29,22 +19,22 @@ export default async function Home() {
           >
             Tatanation Stack
           </h1>
-          <Separator className="my-4" decorative />
-          <div className="flex gap-4 items-center justify-evenly w-[40rem]">
-            <h2>ShadcnUI</h2>
+          <Separator
+            className="my-4"
+            decorative />
+          <div className="flex gap-4 items-end justify-evenly w-[40rem]">
+            <h2 className="scroll-m-20 text-3xl font-light tracking-tight transition-colors">ShadcnUI</h2>
             <Separator orientation="vertical" decorative />
-            <h2>SWR</h2>
+            <h2 className="scroll-m-20 text-3xl font-light tracking-tight transition-colors">SWR</h2>
             <Separator orientation="vertical" decorative />
-            <h2>Zod</h2>
+            <h2 className="scroll-m-20 text-3xl font-light tracking-tight transition-colors">Zod</h2>
             <Separator orientation="vertical" decorative />
-            <h2>Supabase</h2>
+            <h2 className="scroll-m-20 text-3xl font-light tracking-tight transition-colors">Supabase</h2>
           </div>
         </div>
-        <Separator orientation="vertical" decorative />
-        <div className="w-[40%] h-full">
-          <DiceCube modelURL={diceURL} />
-          {/* <DiceCube dice /> */}
-        </div>
+        {/* <Separator orientation="vertical" decorative />
+        <DiceCube modelURL={diceURL} /> */}
+        {/* <DiceCube dice /> */}
       </div>
     </main>
   );
